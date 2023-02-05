@@ -281,7 +281,7 @@ class DocPath:
             return lines
         # return [line for line in open(self.old_path, "r").readlines()]
 
-    def metadata(self, __key: str) -> str | Dict[str, str]:
+    def metadata(self, __key: str) -> Union[str, Dict[str, str]]:
         """Gets the metadata of the file. Made up of the front matter and some file properties."""
         metadata = self.frontmatter
         return metadata.get(__key)
