@@ -281,12 +281,10 @@ class DocPath:
             return lines
         # return [line for line in open(self.old_path, "r").readlines()]
 
-    # @property
-    # def metadata(self) -> Dict[str, str]:
-    #     """Gets the metadata of the file. Made up of the front matter and some file properties."""
-    #     metadata = self.frontmatter
-    #     metadata["modified"] = self.modified.strftime("%Y-%m-%d %H:%M:%S")
-    #     return self.frontmatter
+    def metadata(self, __key: str) -> str:
+        """Gets the metadata of the file. Made up of the front matter and some file properties."""
+        metadata = self.frontmatter
+        return metadata.get(__key)
 
     @property
     def frontmatter(self) -> Dict[str, str]:
