@@ -4,7 +4,7 @@
 
 {% block seo %}
   {{ super() }}
-  
+
   {% set title_addition = "" %}
   {% set title = "" %}
   {% if page.title and config.extra.title_addition %}
@@ -14,7 +14,7 @@
   {% else %}
     {% set title_addition = config.title %}
   {% endif %}
-  
+
   {% if page.description %}
     {% set description = page.description %}
   {% else %}
@@ -27,10 +27,10 @@
   {% else %}
     {% set page_section = "" %}
   {% endif %}
-  
+
   {{ macros_head::seo(title=title_addition, title_addition=title_addition, description=description, type="article", is_page=true, created_time=created_time, updated_time=updated_time, page_section=page_section) }}
 {% endblock seo %}
-  
+
 {% block body %}
   {% if section.extra.class %}
     {% set page_class = page.extra.class %}

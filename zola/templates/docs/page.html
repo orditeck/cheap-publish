@@ -18,6 +18,7 @@
 	  {{ macros_toc::docs_toc(page=page) }}
       <main class="docs-content col-lg-11 col-xl-9">
         <h1>{{ page.title | safe }}</h1>
+	      {{ macros_publish::page_publish_metadata(page=page) }}
         {% if page.extra.lead %}<p class="lead">{{ page.extra.lead | safe }}</p>{% endif %}
         {{ page.content | safe }}
 <!--        {% if config.extra.page_graph %}-->
