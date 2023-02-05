@@ -65,9 +65,15 @@ if __name__ == "__main__":
                     # To add last line-break
                     "",
                 ]
-                lead = doc_path.metadata('lead')
-                if(lead):
-                    content.insert(6, f"    lead: {lead}")
+                extra = doc_path.metadata('extra')
+                if(type(extra) is dict):
+                    for key, vvlue in extra.items():
+                        content.append(f"    {key}: {vvlue}")
+                content.extend([
+                    "---",
+                    # To add last line-break
+                    "",
+                ])
                 doc_path.write([
                     "\n".join(content),
                     convert_metadata_to_html(meta_data),
