@@ -256,7 +256,7 @@ class DocPath:
                 item for item in self.old_path.stem.split(" ")
             ]
         ).replace('"', r"\"")
-        return title
+        return self.metadata("title") or title
 
     @property
     def is_md(self) -> bool:
@@ -264,9 +264,14 @@ class DocPath:
         return self.is_file and self.old_path.suffix == ".md"
 
     @property
+    def created(self) -> datetime:
+        """Gets first created time."""
+        return self.metadata("created") or datetime.fromtimestamp(os.path.getmtime(self.old_path))
+
+    @property
     def modified(self) -> datetime:
         """Gets last modified time."""
-        return datetime.fromtimestamp(os.path.getmtime(self.old_path))
+        return self.metadata("modified") or datetime.fromtimestamp(os.path.getmtime(self.old_path))
 
     @property
     def content(self) -> List[str]:

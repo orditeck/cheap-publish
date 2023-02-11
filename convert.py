@@ -56,7 +56,7 @@ if __name__ == "__main__":
                 content = [
                     "---",
                     f'title: "{doc_path.page_title}"',
-                    f"date: {doc_path.modified}",
+                    f"date: {doc_path.created}",
                     f"updated: {doc_path.modified}",
                     "template: docs/page.html",
                     "extra:",
