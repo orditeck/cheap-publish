@@ -271,7 +271,7 @@ class DocPath:
     @property
     def modified(self) -> datetime:
         """Gets last modified time."""
-        return self.metadata("modified") or datetime.fromtimestamp(os.path.getmtime(self.old_path))
+        return self.metadata("modified")
 
     @property
     def content(self) -> List[str]:

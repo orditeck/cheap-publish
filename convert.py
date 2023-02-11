@@ -57,11 +57,16 @@ if __name__ == "__main__":
                     "---",
                     f'title: "{doc_path.page_title}"',
                     f"date: {doc_path.created}",
-                    f"updated: {doc_path.modified}",
+                ]
+
+                if(doc_path.modified):
+                    content.append(f"updated: {doc_path.modified}")
+
+                content.extend([
                     "template: docs/page.html",
                     "extra:",
                     f"    prerender: {links}",
-                ]
+                ])
                 extra = doc_path.metadata('extra')
                 if(type(extra) is dict):
                     for key, value in extra.items():

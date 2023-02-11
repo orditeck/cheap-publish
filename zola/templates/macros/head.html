@@ -48,8 +48,8 @@
   is_page=false,
   page_images="",
   page_section="",
-  created_time="2021-05-01T08:08:00+08:00",
-  updated_time="2021-05-01T08:08:08+08:00"
+  created_time="",
+  updated_time=""
   )
 %}
 
@@ -99,8 +99,17 @@
     <meta property="og:image" content="{{ config.base_url | safe }}/{{ config.extra.open.image }}">
   {% endif %}
 
-  <meta property="og:updated_time" content="{{ updated_time }}">
   <meta property="og:site_name" content="{{ title }}">
+
+  {% if type == "article" %}
+    {% if created_time %}
+    <meta property="og:article:published_time " content="{{ created_time }}">
+    {% endif %}
+
+    {% if updated_time %}
+    <meta property="og:article:modified_time" content="{{ updated_time }}">
+    {% endif %}
+  {% endif %}
 
   {% if config.extra.open.audio %}
     <meta property="og:audio" content="{{ config.extra.open.audio }}">
@@ -180,8 +189,12 @@
       },
       "headline": "{{ title }}",
       "image": {{ page_images }},
+      {% if created_time %}
       "datePublished": "{{ created_time }}",
+      {% endif %}
+      {% if updated_time %}
       "dateModified": "{{ updated_time }}",
+      {% endif %}
       "author": {
         "@type": "{{ config.extra.schema.type }}",
         "name": "{{ title }}"
