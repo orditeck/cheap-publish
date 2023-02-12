@@ -59,9 +59,11 @@ def get_metadata_handlers():
 #                                 "source"  : "https://www.google.com"}))
 
 
-def slugify_path(path: Union[str, Path], no_suffix: bool, lowercase=False) -> Path:
+def slugify_path(path: Union[str, Path], no_suffix: bool, lowercase = False, is_md = False) -> Path:
     """Slugifies every component of a path. Note that '../xxx' will get slugified to '/xxx'. Always use absolute paths. `no_suffix=True` when path is URL or directory (slugify everything including extension)."""
-    path = str(path).replace('.', '==')
+    # path = str(path).replace('.', '==')
+    if is_md:
+        path = f"{str(path)}.md"
     path = Path(str(path))  # .lower()
     if Settings.is_true("SLUGIFY"):
         if no_suffix:
@@ -70,8 +72,8 @@ def slugify_path(path: Union[str, Path], no_suffix: bool, lowercase=False) -> Pa
             suffix = ""
         else:
             os_path = "/".join(slugify(item, lowercase=lowercase) for item in str(path.parent).split("/"))
-            name = ".".join(slugify(item, lowercase=lowercase) for item in path.stem.split("."))
-            suffix = path.suffix
+            name = ".".join(slugify(item, lowercase=lowercase) for item in path.stem.split(".")).replace('.md', '')
+            suffix = path.suffix.replace('.md', '')
 
         if name != "" and suffix != "":
             return Path(os_path) / f"{name}{suffix}"
@@ -150,7 +152,7 @@ class DocLink:
                 .relative_to(docs_dir)
             )
             print(f'new_rel_path1 {new_rel_path}')
-            new_rel_path = quote(str(slugify_path(new_rel_path, False)))
+            new_rel_path = quote(str(slugify_path(new_rel_path, False, False, self.is_md)))
             print(f'new_rel_path2 {new_rel_path}')
 
             return f"/docs/{new_rel_path}"
