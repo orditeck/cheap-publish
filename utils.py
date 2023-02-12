@@ -59,10 +59,10 @@ def get_metadata_handlers():
 #                                 "source"  : "https://www.google.com"}))
 
 
-def slugify_path(path: Union[str, Path], no_suffix: bool, lowercase = False, is_md = False) -> Path:
+def slugify_path(path: Union[str, Path], no_suffix: bool, lowercase = False, fix_md = False) -> Path:
     """Slugifies every component of a path. Note that '../xxx' will get slugified to '/xxx'. Always use absolute paths. `no_suffix=True` when path is URL or directory (slugify everything including extension)."""
     # path = str(path).replace('.', '==')
-    if is_md:
+    if fix_md:
         path = f"{str(path)}.md"
     path = Path(str(path))  # .lower()
     if Settings.is_true("SLUGIFY"):
@@ -72,8 +72,12 @@ def slugify_path(path: Union[str, Path], no_suffix: bool, lowercase = False, is_
             suffix = ""
         else:
             os_path = "/".join(slugify(item, lowercase=lowercase) for item in str(path.parent).split("/"))
-            name = ".".join(slugify(item, lowercase=lowercase) for item in path.stem.split(".")).replace('.md', '')
-            suffix = path.suffix.replace('.md', '')
+            name = ".".join(slugify(item, lowercase=lowercase) for item in path.stem.split("."))
+            suffix = path.suffix
+
+            if(fix_md):
+                name = name.replace('.md', '')
+                suffix = suffix.replace('.md', '')
 
         if name != "" and suffix != "":
             return Path(os_path) / f"{name}{suffix}"
@@ -205,7 +209,7 @@ class DocPath:
                     self.old_rel_path.stem + "-nested" + self.old_rel_path.suffix
             )
 
-        self.new_rel_path = slugify_path(new_rel_path, not self.is_file, False, self.is_md)
+        self.new_rel_path = slugify_path(new_rel_path, not self.is_file)
         self.new_path = docs_dir / str(self.new_rel_path)
         print(f"New path: {self.new_path}")
 
