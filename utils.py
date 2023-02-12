@@ -61,7 +61,7 @@ def get_metadata_handlers():
 
 def slugify_path(path: Union[str, Path], no_suffix: bool, lowercase=False) -> Path:
     """Slugifies every component of a path. Note that '../xxx' will get slugified to '/xxx'. Always use absolute paths. `no_suffix=True` when path is URL or directory (slugify everything including extension)."""
-    path = path.replace('.', '==')
+    path = str(path).replace('.', '==')
     path = Path(str(path))  # .lower()
     if Settings.is_true("SLUGIFY"):
         if no_suffix:
