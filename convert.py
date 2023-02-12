@@ -7,7 +7,7 @@ from utils import (
     Settings,
     parse_graph,
     pp,
-    raw_dir,
+    originals_dir,
     site_dir,
     write_settings, convert_metadata_to_html, to_prerender_links,
 )
@@ -24,9 +24,9 @@ if __name__ == "__main__":
     edges: List[Tuple[str, str]] = []
     section_count = 0
 
-    all_paths = list(sorted(raw_dir.glob("**/*")))
+    all_paths = list(sorted(originals_dir.glob("**/*")))
 
-    for path in [raw_dir, *all_paths]:
+    for path in [originals_dir, *all_paths]:
         doc_path = DocPath(path)
         if doc_path.is_file:
             if doc_path.is_md:
@@ -34,7 +34,7 @@ if __name__ == "__main__":
                 content = doc_path.content
                 print(f'content {len(content)} for {doc_path.page_title}')
                 if len(content) < 2:
-                    print(f"Skipping {doc_path} because it is empty")
+                    print(f"Skipping {doc_path.old_path} because it is empty")
                     continue
                 # meta_data = doc_path.metadata # maybe in the future we can extract metadata from inline yaml
                 meta_data = doc_path.frontmatter
@@ -52,23 +52,24 @@ if __name__ == "__main__":
                     parsed_lines.append(parsed_line)
 
                     if meta_data.get('graph', True):
-                        edges.extend([doc_path.edge(rel_path) for rel_path in linked])
+                        edges.extend([doc_path.edge(rel_path)
+                                     for rel_path in linked])
                 content = [
                     "---",
                     f'title: "{doc_path.page_title}"',
                     f"date: {doc_path.created}",
                 ]
 
-                if(doc_path.modified):
+                if (doc_path.modified):
                     content.append(f"updated: {doc_path.modified}")
 
                 content.extend([
-                    "template: docs/page.html",
+                    "template: content/page.html",
                     "extra:",
                     f"    prerender: {links}",
                 ])
                 extra = doc_path.metadata('extra')
-                if(type(extra) is dict):
+                if (type(extra) is dict):
                     for key, value in extra.items():
                         content.append(f"    {key}: {value}")
                 content.extend([
@@ -92,15 +93,23 @@ if __name__ == "__main__":
             content = [
                 "---",
                 f'title: "{doc_path.section_title}"',
-                "template: docs/section.html",
+                "template: content/section.html",
                 f"sort_by: {Settings.options['SORT_BY']}",
                 f"weight: {section_count}",
+            ]
+
+            if (doc_path.old_path == originals_dir and Settings.options['REDIRECT_HOME']):
+                content.append(
+                    f"redirect_to: {Settings.options['REDIRECT_HOME']}")
+
+            content.extend([
                 "extra:",
                 f"    sidebar: {doc_path.section_sidebar}",
                 "---",
                 # To add last line-break
                 "",
-            ]
+            ])
+
             section_count += 1
             doc_path.write_to("_index.md", "\n".join(content))
             print(f"Found section: {doc_path.new_rel_path}")

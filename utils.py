@@ -20,8 +20,8 @@ import yaml
 import metadata_handlers
 
 site_dir = Path(__file__).parent.absolute() / "build"
-raw_dir = site_dir / "__docs"
-docs_dir = site_dir / "content/docs"
+originals_dir = site_dir / "__originals"
+formatted_dir = site_dir / "content"
 
 
 # ---------------------------------------------------------------------------- #
@@ -153,11 +153,11 @@ class DocLink:
             new_rel_path = (
                 (doc_path.new_path.parent / unquote(self.url))
                 .resolve()
-                .relative_to(docs_dir)
+                .relative_to(formatted_dir)
             )
-            new_rel_path = quote(str(slugify_path(new_rel_path, False, True, self.is_md)))
+            new_rel_path = quote(str(slugify_path(new_rel_path, False, False, self.is_md)))
 
-            return f"/docs/{new_rel_path}"
+            return f"/{new_rel_path}"
         except Exception:
             print(f"Invalid link found: {doc_path.old_rel_path}")
             return "/404"
@@ -197,7 +197,7 @@ class DocPath:
     def __init__(self, path: Path):
         """Path parsing."""
         self.old_path = path.resolve()
-        self.old_rel_path = self.old_path.relative_to(raw_dir)
+        self.old_rel_path = self.old_path.relative_to(originals_dir)
         new_rel_path = self.old_rel_path
 
         # Take care of cases where Markdown file has a sibling directory of the same name
@@ -208,7 +208,7 @@ class DocPath:
             )
 
         self.new_rel_path = slugify_path(new_rel_path, not self.is_file)
-        self.new_path = docs_dir / str(self.new_rel_path)
+        self.new_path = formatted_dir / str(self.new_rel_path)
         print(f"New path: {self.new_path}")
 
     # --------------------------------- Sections --------------------------------- #
@@ -338,7 +338,7 @@ class DocPath:
     def abs_url(self) -> str:
         """Returns an absolute URL to the page."""
         assert self.is_md
-        return quote(f"/docs/{str(self.new_rel_path)[:-3]}")
+        return quote(f"/{str(self.new_rel_path)[:-3]}")
 
     def edge(self, other: str) -> Tuple[str, str]:
         """Gets an edge from page's URL to another URL."""
@@ -386,6 +386,7 @@ class Settings:
         "COMMENTS_GISCUSS"     : "",
         "EDIT_PAGE"            : "",
         "EDIT_PAGE_BUTTON_TEXT": "Edit this page on Github",
+        "REDIRECT_HOME"        : "",
         "GRAPH_OPTIONS"        : """
         {
         	nodes: {
@@ -519,7 +520,7 @@ def parse_graph(nodes: Dict[str, str], edges: List[Tuple[str, str]]):
         edge_counts[j] += 1
 
     # Node category if more than 2 nested level, take sub folder
-    node_categories = set([key.split("/")[2 if key.count("/") < 5 else 3] for key in nodes.keys()])
+    node_categories = set([key.split("/")[1 if key.count("/") < 5 else 2] for key in nodes.keys()])
 
     # Choose the most connected nodes to be colored
     top_nodes = {
@@ -536,9 +537,9 @@ def parse_graph(nodes: Dict[str, str], edges: List[Tuple[str, str]]):
                 "id"     : node_ids[url],
                 "label"  : title,
                 "url"    : url,
-                "color"  : PASTEL_COLORS[top_nodes[url.split("/")[2 if url.count("/") < 5 else 3]]] if url.split("/")[
-                                                                                                           2 if url.count(
-                                                                                                               "/") < 5 else 3] in top_nodes else None,
+                "color"  : PASTEL_COLORS[top_nodes[url.split("/")[1 if url.count("/") < 5 else 2]]] if url.split("/")[
+                                                                                                           1 if url.count(
+                                                                                                               "/") < 5 else 2] in top_nodes else None,
                 "value"  : math.log10(edge_counts[url] + 1) + 1,
                 "opacity": 0.1,
             }

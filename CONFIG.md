@@ -42,6 +42,11 @@ Google Analytics Measurement ID. Default: "".
 ### `SLUGIFY`
 Whether to slugify URLs. Set to "" to disable (use at your own risk, filenames with special symbols might not show up correctly in the graph view). Default: "y".
 
+### `REDIRECT_HOME` = "main"
+
+Speficy a URL the root path should redirect to. Default: "".
+Eg: `REDIRECT_HOME = "README"` will redirect / to /README
+
 ### `HOME_GRAPH`
 Shows knowledge graph on home page. Put "" to disable. Default: "y".
 

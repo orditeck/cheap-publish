@@ -55,11 +55,11 @@ rsync -a zola/ build
 rsync -a content/ build/content
 
 # Use obsidian-export to export markdown content from obsidian
-mkdir -p build/content/docs build/__docs
+mkdir -p build/__originals
 if [ -z "$STRICT_LINE_BREAKS" ]; then
-	bin/obsidian-export --frontmatter=never --hard-linebreaks --no-recursive-embeds $VAULT build/__docs
+	bin/obsidian-export --hard-linebreaks --no-recursive-embeds "$VAULT" build/__originals
 else
-	bin/obsidian-export --frontmatter=never --no-recursive-embeds $VAULT build/__docs
+	bin/obsidian-export --no-recursive-embeds "$VAULT" build/__originals
 fi
 
 # Run conversion script

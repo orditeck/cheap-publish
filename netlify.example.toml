@@ -39,6 +39,8 @@ SIDEBAR_COLLAPSED = ""
 FOOTER = ""
 # (Optional, default main) Root section name.
 ROOT_SECTION_NAME = "main"
+# (Optional, default "" which doesn't redirect)
+REDIRECT_HOME = ""
 # (Optional) visjs graph options. Can remove if desired.
 GRAPH_OPTIONS = """
         {
