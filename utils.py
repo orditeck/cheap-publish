@@ -417,6 +417,7 @@ class Settings:
         	height: "100%",
         	width: "100%",
         	physics: {
+        		stabilization: false,
         		solver: "repulsion",
         	},
         }

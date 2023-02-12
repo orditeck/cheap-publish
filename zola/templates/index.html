@@ -8,15 +8,15 @@
   {% else %}
     {% set title = "" %}
   {% endif %}
-  
+
   {% if config.extra.title_addition %}
     {% set title_addition = config.extra.title_addition %}
   {% else %}
     {% set title_addition = title %}
   {% endif %}
-  
+
   {% set description = config.description %}
-  
+
   {{ macros_head::seo(title=title_addition, title_addition=title_addition, description=description, is_home=true) }}
 {% endblock seo %}
 
@@ -68,7 +68,7 @@
                 y: -container.clientHeight / 8,
             },
             scale: 0.5 - (100/container.clientWidth),
-        }); 
+        });
       });
 
     }, false);
