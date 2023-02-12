@@ -205,7 +205,7 @@ class DocPath:
                     self.old_rel_path.stem + "-nested" + self.old_rel_path.suffix
             )
 
-        self.new_rel_path = slugify_path(new_rel_path, not self.is_file, self.is_md)
+        self.new_rel_path = slugify_path(new_rel_path, not self.is_file, False, self.is_md)
         self.new_path = docs_dir / str(self.new_rel_path)
         print(f"New path: {self.new_path}")
 
