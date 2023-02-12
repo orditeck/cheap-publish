@@ -149,6 +149,7 @@ class DocLink:
                 .relative_to(docs_dir)
             )
             new_rel_path = quote(str(slugify_path(new_rel_path, False)))
+            print(f'new_rel_path {new_rel_path}')
 
             return f"/docs/{new_rel_path}"
         except Exception:
