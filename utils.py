@@ -155,9 +155,7 @@ class DocLink:
                 .resolve()
                 .relative_to(docs_dir)
             )
-            print(f'new_rel_path1 {new_rel_path}')
-            new_rel_path = quote(str(slugify_path(new_rel_path, False, False, self.is_md)))
-            print(f'new_rel_path2 {new_rel_path}')
+            new_rel_path = quote(str(slugify_path(new_rel_path, False, True, self.is_md)))
 
             return f"/docs/{new_rel_path}"
         except Exception:
