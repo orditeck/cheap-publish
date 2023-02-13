@@ -83,7 +83,7 @@ for (let i = 0; i < sections.length; i++) {
 
 document.querySelectorAll('img[alt]').forEach((image) => {
   const alt = image.getAttribute('alt');
-  const match = /\|?(\d+)/.exec(alt);
+  const match = /\|?(\d+)$/.exec(alt);
 
   if (match && match[1]) {
     const width = Number(match[1]);
