@@ -106,14 +106,15 @@ function getPreviewUniqueClass(previewDiv) {
 }
 
 function isDocLink(href) {
-    const test = new URL(href);
-    return test.pathname.startsWith("/docs/");
+    const hrefURL = new URL(href);
+    const pageURL = new URL(window.location);
+    return href.startsWith("/") || hrefURL.host === pageURL.host;
 }
 
 function hidePreview(previewDiv) {
     try {
         document.body.removeChild(previewDiv);
-    } catch (e) {}
+    } catch (e) { }
 }
 
 function createPreview() {
@@ -126,7 +127,7 @@ function createPreview() {
 }
 
 function initPreview(query = ".docs-content a") {
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) return;
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) return;
 
     document.querySelectorAll(query).forEach((a) => {
         if (isDocLink(a.href)) {
