@@ -61,9 +61,6 @@ def get_metadata_handlers():
 
 def slugify_path(path: Union[str, Path], no_suffix: bool, lowercase = False, fix_md = False) -> Path:
     """Slugifies every component of a path. Note that '../xxx' will get slugified to '/xxx'. Always use absolute paths. `no_suffix=True` when path is URL or directory (slugify everything including extension)."""
-    # path = str(path).replace('.', '==')
-    if fix_md:
-        path = f"{str(path)}.md"
     path = Path(str(path))  # .lower()
     if Settings.is_true("SLUGIFY"):
         if no_suffix:
@@ -72,6 +69,8 @@ def slugify_path(path: Union[str, Path], no_suffix: bool, lowercase = False, fix
             suffix = ""
         else:
             os_path = "/".join(slugify(item, lowercase=lowercase) for item in str(path.parent).split("/"))
+            if fix_md:
+                path = Path(f"{str(path)}.md")
             name = ".".join(slugify(item, lowercase=lowercase) for item in path.stem.split("."))
             suffix = path.suffix
 
@@ -155,7 +154,9 @@ class DocLink:
                 .resolve()
                 .relative_to(formatted_dir)
             )
+            print(f"new_rel_path1: {new_rel_path}")
             new_rel_path = quote(str(slugify_path(new_rel_path, False, False, self.is_md)))
+            print(f"new_rel_path2: {new_rel_path}")
 
             return f"/{new_rel_path}"
         except Exception:
