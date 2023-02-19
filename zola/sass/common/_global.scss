@@ -187,6 +187,14 @@ body {
 .docs-content {
   padding-bottom: 0rem;
   order: 1;
+
+  p:not(.page-publish-metadata):has(> small) {
+    line-height: 1.1;
+
+    > small {
+      font-size: 0.7em;
+    }
+  }
 }
 
 .docs-navigation, .blog-navigation {
@@ -277,12 +285,4 @@ article {
 @font-face {
   font-family: "Cascadia";
   src: url("https://excalidraw.com/Cascadia.woff2");
-}
-
-p:has(> small) {
-  line-height: 1.1;
-
-  > small {
-    font-size: 0.7em;
-  }
 }

@@ -3,7 +3,7 @@
 {% if page.updated and page.updated != page.date %}
 {% set updated = page.updated | date(format=config.extra.timeformat | default(value="%Y-%m-%d %H:%M:%S"), timezone=config.extra.timezone | default(value="America/New_York")) %}
 {% endif %}
-<p>
+<p class="page-publish-metadata">
   <small>
     {% if updated %}
     Posted {{ posted }}, last updated {{ updated }}
