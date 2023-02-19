@@ -23,10 +23,15 @@
 }
 
 blockquote {
+  font-size: 1rem;
   margin-bottom: 1rem;
-  font-size: 0.95rem;
-  border-left: 3px solid $gray-300;
-  padding-left: 1rem;
-  font-style: italic;
-  opacity: 0.95;
+  border-left: 3px solid rgb(125, 91, 237);
+  padding: 1rem;
+  background: rgb(248, 249, 250);
+
+  p:last-of-type {
+    margin-bottom: 0;
+  }
 }
+
+
