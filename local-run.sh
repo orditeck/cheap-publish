@@ -57,9 +57,9 @@ rsync -a content/ build/content
 # Use obsidian-export to export markdown content from obsidian
 mkdir -p build/__originals
 if [ -z "$STRICT_LINE_BREAKS" ]; then
-	bin/obsidian-export --hard-linebreaks --no-recursive-embeds "$VAULT" build/__originals
+	bin/obsidian-export --hard-linebreaks --no-recursive-embeds --no-git "$VAULT" build/__originals
 else
-	bin/obsidian-export --no-recursive-embeds "$VAULT" build/__originals
+	bin/obsidian-export --no-recursive-embeds --no-git "$VAULT" build/__originals
 fi
 
 # Run conversion script
