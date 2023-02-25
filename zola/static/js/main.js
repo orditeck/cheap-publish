@@ -8,6 +8,8 @@ document.getElementById("mode").addEventListener("click", () => {
 
   localStorage.setItem("theme", isDark() ? "dark" : "light");
 
+  window.REMARK42.changeTheme(isDark() ? "dark" : "light")
+
   // Update graph colors if exists
   if (graph) {
     graph.setOptions({
