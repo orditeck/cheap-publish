@@ -1,6 +1,8 @@
 @import "https://discuss.nevek.co/web/remark-original.css";
 
 :root {
+  --primary-background-color: 27,31,34;
   --color8: #1b1f22;
   --color7: #25292e;
+  --color22: #141719;
 }
